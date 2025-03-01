@@ -73,8 +73,6 @@ export const useColorPalette = (
     } else {
       saveToHistory(newColors);
     }
-    
-    toast.success("New palette generated!");
   };
 
   const addColor = () => {
