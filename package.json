@@ -1,0 +1,10 @@
+{
+  "name": "color-gen",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd color-chat-buddy && npm run dev",
+    "build": "cd color-chat-buddy && npm run build",
+    "preview": "cd color-chat-buddy && npm run preview"
+  }
+} 
