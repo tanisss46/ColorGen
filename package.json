@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "cd color-chat-buddy && npm run dev",
     "build": "cd color-chat-buddy && npm run build",
+    "vercel-build": "cd color-chat-buddy && npm install && npm run build",
     "preview": "cd color-chat-buddy && npm run preview"
   }
 } 
