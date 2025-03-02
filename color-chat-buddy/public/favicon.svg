@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- ColorGen favicon - three dots representing the brand colors -->
   <g transform="translate(2, 16)">
     <circle cx="4" cy="0" r="5.5" fill="#FDA4AF" opacity="0.9" />
     <circle cx="16" cy="0" r="5.5" fill="#93C5FD" opacity="0.9" />
