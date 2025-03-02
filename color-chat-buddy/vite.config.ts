@@ -22,4 +22,9 @@ export default defineConfig(({ mode }) => ({
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
+  build: {
+    rollupOptions: {
+      external: ['@vercel/analytics', '@vercel/analytics/react']
+    }
+  },
 }));

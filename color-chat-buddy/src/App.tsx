@@ -3,9 +3,27 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
+import React, { useEffect, useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+
+// Dynamic Analytics component
+const AnalyticsWrapper = () => {
+  const [AnalyticsComponent, setAnalyticsComponent] = useState<React.ComponentType | null>(null);
+
+  useEffect(() => {
+    // Dynamic import of the Analytics component
+    import('@vercel/analytics/react')
+      .then(module => {
+        setAnalyticsComponent(() => module.Analytics);
+      })
+      .catch(err => {
+        console.warn('Analytics failed to load:', err);
+      });
+  }, []);
+
+  return AnalyticsComponent ? <AnalyticsComponent /> : null;
+};
 
 const queryClient = new QueryClient();
 
@@ -20,7 +38,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      <Analytics />
+      <AnalyticsWrapper />
     </TooltipProvider>
   </QueryClientProvider>
 );
