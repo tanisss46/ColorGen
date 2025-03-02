@@ -82,8 +82,6 @@ export const ColorList: React.FC<ColorListProps> = ({
       onDragEnd();
     }
     
-    // If there's no destination or the drop is outside valid areas,
-    // the animation will automatically return the item to its source
     if (!result.destination) return;
     
     const sourceIndex = result.source.index;
@@ -167,11 +165,7 @@ export const ColorList: React.FC<ColorListProps> = ({
                           : provided.draggableProps.style?.transform,
                         zIndex: snapshot.isDragging ? 9999 : 'auto',
                         boxShadow: snapshot.isDragging ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" : "none",
-                        border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none",
-                        // Add faster transition for returning to position
-                        transition: provided.draggableProps.style?.transition 
-                          ? provided.draggableProps.style.transition.replace('0.2s', '0.1s')
-                          : 'transform 0.1s'
+                        border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
                       }}
                       className={`${snapshot.isDragging ? 'rounded-lg will-change-transform' : ''}`}
                     >

@@ -27,7 +27,9 @@ const Index = () => {
     canRedo,
     handleFilterColors,
     handleColorChange,
-    setColors
+    setColors,
+    startDragging,
+    stopDragging
   } = useColorPalette(user, setIsLoginOpen, setSavedPalettes);
 
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -157,6 +159,8 @@ const Index = () => {
             isAuthenticated={!!user}
             onSaveColor={handleSaveColor}
             onUnsaveColor={handleUnsaveColor}
+            onDragStart={startDragging}
+            onDragEnd={() => stopDragging()}
           />
         </div>
       </div>

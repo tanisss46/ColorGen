@@ -13,6 +13,7 @@ export const useColorPalette = (
   const [colors, setColors] = useState<ColorState[]>(() => generateInitialColors(5));
   const [history, setHistory] = useState<ColorState[][]>([generateInitialColors(5)]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Filter function that also records history for undo functionality
   const handleFilterColors = (colorHexCodes: string[]) => {
@@ -173,9 +174,14 @@ export const useColorPalette = (
     }
   };
 
+  // Drag işlemlerini kontrol eden fonksiyonlar ekleyin
+  const startDragging = () => setIsDragging(true);
+  const stopDragging = () => setIsDragging(false);
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
+      // Sürükleme işlemi sırasında space tuşunu devre dışı bırak
+      if (event.code === "Space" && !isDragging) {
         event.preventDefault();
         event.stopPropagation();
         generateNewPalette();
@@ -183,7 +189,7 @@ export const useColorPalette = (
     };
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [colors]);
+  }, [colors, isDragging]);
 
   return {
     colors,
@@ -198,6 +204,8 @@ export const useColorPalette = (
     canRedo,
     handleFilterColors,
     handleColorChange,
-    setColors: saveToHistory
+    setColors: saveToHistory,
+    startDragging,
+    stopDragging
   };
 };
