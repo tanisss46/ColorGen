@@ -15,7 +15,7 @@ const injectGlobalStyle = () => {
     style.id = styleId;
     style.innerHTML = `
       .react-beautiful-dnd-draggable {
-        transition: transform 0.2s;
+        transition: transform 0.3s ease !important;
       }
       
       /* Sürükleme sırasında renk bilgilerinin konumu */
@@ -82,12 +82,19 @@ export const ColorList: React.FC<ColorListProps> = ({
       onDragEnd();
     }
     
-    if (!result.destination) return;
+    // If there is no destination, or if the destination is outside the list,
+    // the item should automatically return to its original position
+    if (!result.destination) {
+      return;
+    }
     
     const sourceIndex = result.source.index;
     const destinationIndex = result.destination.index;
     
-    if (sourceIndex === destinationIndex) return;
+    // Only reorder if the position actually changed
+    if (sourceIndex === destinationIndex) {
+      return;
+    }
     
     onReorder(sourceIndex, destinationIndex);
   };
@@ -128,6 +135,7 @@ export const ColorList: React.FC<ColorListProps> = ({
       <Droppable 
         droppableId="colors" 
         direction="horizontal"
+        type="COLOR_PALETTE_ITEM"
       >
         {(provided) => (
           <div 
@@ -165,7 +173,10 @@ export const ColorList: React.FC<ColorListProps> = ({
                           : provided.draggableProps.style?.transform,
                         zIndex: snapshot.isDragging ? 9999 : 'auto',
                         boxShadow: snapshot.isDragging ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" : "none",
-                        border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
+                        border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none",
+                        transition: snapshot.isDragging 
+                          ? undefined 
+                          : "transform 0.3s ease-out, box-shadow 0.3s ease-out, border 0.3s ease-out"
                       }}
                       className={`${snapshot.isDragging ? 'rounded-lg will-change-transform' : ''}`}
                     >
