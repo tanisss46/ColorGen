@@ -114,9 +114,8 @@ export const ColorCard: React.FC<ColorCardProps> = ({
     const newRgb = { ...rgb, [component]: Math.min(255, Math.max(0, value)) };
     setRgb(newRgb);
     const newColor = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
-    // Update local color and name
+    // Only update local color
     setLocalColor(newColor);
-    setColorName(getColorName(newColor));
   };
 
   
@@ -213,32 +212,6 @@ export const ColorCard: React.FC<ColorCardProps> = ({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <div 
-                {...dragHandleProps}
-                className={`p-3 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 active:bg-white/30 transition-all opacity-0 group-hover:opacity-100 cursor-grab active:cursor-grabbing touch-manipulation select-none ${
-                  isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                }`}
-                style={{ 
-                  touchAction: 'none',
-                  userSelect: 'none',
-                  WebkitUserSelect: 'none',
-                  MozUserSelect: 'none',
-                  msUserSelect: 'none'
-                }}
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent copying when clicking the drag handle
-                }}
-              >
-                <Grip className="w-7 h-7" />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Drag to reorder colors</p>
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
@@ -255,22 +228,106 @@ export const ColorCard: React.FC<ColorCardProps> = ({
               <p>Edit color</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
 
-        <ColorPicker
-          color={localColor}
-          onChange={(color) => {
-            // Update local color and name immediately
-            setLocalColor(color);
-            setColorName(getColorName(color));
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div 
+                {...dragHandleProps}
+                className={`p-3 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 active:bg-white/30 transition-all opacity-0 group-hover:opacity-100 cursor-grab active:cursor-grabbing touch-manipulation select-none ${
+                  isColorLight(localColor) ? 'text-gray-900' : 'text-white'
+                }`}
+                style={{ 
+                  touchAction: 'none',
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Grip className="w-7 h-7" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Drag to reorder colors</p>
+            </TooltipContent>
+          </Tooltip>
+
+        </TooltipProvider>
+      </div>
+      
+      <div 
+        className="absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center"
+        style={{ 
+          paddingBottom: '80px',
+          transform: 'translateZ(0)', 
+          willChange: 'transform', 
+          zIndex: 10,
+          pointerEvents: 'none'
+        }}
+      >
+        <Popover open={isEditing} onOpenChange={(open) => {
+          setIsEditing(open);
+        }}>
+          <PopoverTrigger asChild>
+            <button 
+              className={`text-[1.70rem] font-sans font-bold tracking-wide leading-tight ${
+                isColorLight(localColor) ? 'text-gray-900 hover:text-gray-700' : 'text-white hover:text-white/90'
+              } px-3 py-2 rounded-lg transition-all cursor-pointer hover:scale-105`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsEditing(true);
+              }}
+              style={{ pointerEvents: 'auto' }}
+            >
+              {localColor.toUpperCase().replace('#', '')}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent 
+            className="w-[280px] p-4 rounded-xl shadow-lg border-0"
+            onClick={(e) => e.stopPropagation()}
+            align="center"
+            sideOffset={5}
+          >
+            <div className="color-picker-container">
+              <ColorPicker
+                color={localColor}
+                onChange={(color) => {
+                  // Update local color and name immediately during changes
+                  setLocalColor(color);
+                  setRgb(hexToRgb(color));
+                  setColorName(getColorName(color));
+                }}
+                onFinalChange={(color) => {
+                  // Notify parent on final change
+                  handleColorChange(color, true);
+                }}
+                rgb={rgb}
+                onRgbChange={(component, value) => {
+                  const newRgb = { ...rgb, [component]: Math.min(255, Math.max(0, value)) };
+                  setRgb(newRgb);
+                  const newColor = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
+                  // Update both color and name
+                  setLocalColor(newColor);
+                  setColorName(getColorName(newColor));
+                }}
+              />
+            </div>
+          </PopoverContent>
+        </Popover>
+        
+        <span 
+          className={`text-l font-medium transition-colors ${
+            isColorLight(localColor) ? 'text-gray-700' : 'text-gray-300' 
+          }`}
+          style={{ 
+            display: 'block',
+            textAlign: 'center',
+            marginTop: '8px'
           }}
-          onFinalChange={(color) => {
-            // Notify parent on final change
-            handleColorChange(color, true);
-          }}
-          rgb={rgb}
-          onRgbChange={handleRgbChange}
-        />
+        >
+          {colorName}
+        </span>
       </div>
     </div>
   );
