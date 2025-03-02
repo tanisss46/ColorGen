@@ -130,11 +130,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
         flexDirection: 'column'
       }}
       onClick={(e) => {
-        // Don't copy color if clicking on the grip/drag handle
-        const target = e.target as HTMLElement;
-        if (!isEditing && 
-            !target.closest('[data-drag-handle="true"]') && 
-            !target.closest('.action-button')) {
+        if (!isEditing) {
           copyToClipboard();
         }
       }}
@@ -147,7 +143,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
                 onClick={handleDelete}
                 className={`p-1.5 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                } action-button`}
+                }`}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -161,9 +157,13 @@ export const ColorCard: React.FC<ColorCardProps> = ({
             <TooltipTrigger asChild>
               <button 
                 onClick={toggleLock}
-                className={`p-1.5 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 ${
+                className={`p-1.5 rounded-full ${
+                  isLocked 
+                    ? `opacity-100 ${isColorLight(localColor) ? 'bg-white/30' : 'bg-black/20'}`
+                    : 'opacity-0 group-hover:opacity-100 bg-white/10'
+                } backdrop-blur-sm hover:bg-white/20 transition-all ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                } action-button`}
+                }`}
               >
                 {isLocked ? (
                   <Lock className="w-4 h-4" />
@@ -183,7 +183,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
                 onClick={toggleFavorite}
                 className={`p-1.5 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                } action-button`}
+                }`}
               >
                 <Heart 
                   className={`w-4 h-4 transition-all ${isFavorite ? 'fill-current' : ''}`}
@@ -204,7 +204,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
                 }}
                 className={`p-1.5 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                } action-button`}
+                }`}
               >
                 <Copy className="w-4 h-4" />
               </button>
@@ -223,7 +223,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
                 }}
                 className={`p-1.5 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100 ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
-                } ${isEditing ? 'bg-white/30' : ''} action-button`}
+                } ${isEditing ? 'bg-white/30' : ''}`}
               >
                 <Palette className="w-4 h-4" />
               </button>
@@ -237,7 +237,11 @@ export const ColorCard: React.FC<ColorCardProps> = ({
             <TooltipTrigger asChild>
               <div 
                 {...dragHandleProps}
-                data-drag-handle="true"
+                onClick={(e) => {
+                  // Prevent the click from propagating to the parent component 
+                  // which would trigger the copyToClipboard function
+                  e.stopPropagation();
+                }}
                 className={`p-3 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 active:bg-white/30 transition-all opacity-0 group-hover:opacity-100 cursor-grab active:cursor-grabbing touch-manipulation select-none ${
                   isColorLight(localColor) ? 'text-gray-900' : 'text-white'
                 }`}
