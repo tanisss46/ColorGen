@@ -5,7 +5,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const ASSISTANT_ID = 'asst_bfJNdhtbw7AGaQvvJcZL7Txj';
+const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID;
+
+if (!ASSISTANT_ID) {
+  console.error('OPENAI_ASSISTANT_ID environment variable is not set');
+}
 
 // Hex code extraction function
 function extractHexCodes(text: string): string[] {
