@@ -104,12 +104,9 @@ export const ColorList: React.FC<ColorListProps> = ({
     if (!copiedColors.includes(color)) {
       toast.success('Color copied!', {
         position: 'bottom-right',
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        duration: 2000,
+        dismissible: true,
+        closeButton: true,
         style: {
           fontSize: '14px',
           padding: '8px 12px',
@@ -137,14 +134,16 @@ export const ColorList: React.FC<ColorListProps> = ({
         direction="horizontal"
         type="COLOR_PALETTE_ITEM"
       >
-        {(provided) => (
+        {(provided, droppableSnapshot) => (
           <div 
             className="flex h-[calc(100vh-96px)]" 
             ref={provided.innerRef}
             {...provided.droppableProps}
             style={{
               overflow: 'hidden',
-              position: 'relative'
+              position: 'relative',
+              // Optimize rendering during drag operations
+              willChange: droppableSnapshot.isDraggingOver ? 'contents' : 'auto'
             }}
           >
             {colors.map((color, index) => {
@@ -166,11 +165,11 @@ export const ColorList: React.FC<ColorListProps> = ({
                         flexGrow: 1,
                         flexBasis: 0,
                         minWidth: 0,
-                        height: snapshot.isDragging ? "calc(100vh - 96px)" : "100%",
-                        opacity: snapshot.isDragging ? 1 : 1,
-                        transform: snapshot.isDragging 
-                          ? `${provided.draggableProps.style?.transform}` 
-                          : provided.draggableProps.style?.transform,
+                        // Don't change height when dragging to avoid layout shifts
+                        height: "100%",
+                        // Keep full opacity during dragging
+                        opacity: 1,
+                        transform: provided.draggableProps.style?.transform,
                         zIndex: snapshot.isDragging ? 9999 : 'auto',
                         boxShadow: snapshot.isDragging ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" : "none",
                         border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none",
@@ -182,7 +181,6 @@ export const ColorList: React.FC<ColorListProps> = ({
                     >
                       <ColorCard
                         color={color.value}
-                        isLocked={color.isLocked}
                         onColorChange={(oldColor, newColor) => handleColorChange(index, newColor)}
                         onDelete={() => onDeleteColor(index)}
                         onLockChange={(isLocked) => onLockChange(index, isLocked)}
@@ -190,7 +188,6 @@ export const ColorList: React.FC<ColorListProps> = ({
                         isSaved={isSaved}
                         onSave={() => onSaveColor(color.value)}
                         onUnsave={() => onUnsaveColor(color.value)}
-                        onCopy={() => handleCopyColor(color.value)}
                         dragHandleProps={provided.dragHandleProps}
                       />
                     </div>
