@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ColorCard } from "@/components/ColorCard";
 import { toast } from "sonner";
 import { GripVertical } from "lucide-react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+
+// CSS ile sürükleme sonrası animasyonun düzgün çalışmasını sağlayan bir stil ekliyoruz
+// Bu stil doğrudan bileşen içine enjekte edilecek
+const injectGlobalStyle = () => {
+  // Bu stil, react-beautiful-dnd'nin sürükleme esnasında ve sonrasında geçiş animasyonunu iyileştirecek
+  const styleId = 'beautiful-dnd-fix-style';
+  
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.innerHTML = `
+      .react-beautiful-dnd-draggable {
+        transition: transform 0.2s;
+      }
+      
+      /* Sürükleme sırasında renk bilgilerinin konumu */
+      .color-info-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 80px;
+        z-index: 5;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+};
 
 interface ColorListProps {
   colors: { value: string; isLocked: boolean }[];
@@ -14,6 +46,8 @@ interface ColorListProps {
   onSaveColor: (color: string) => void;
   onUnsaveColor: (color: string) => void;
   onReorder: (sourceIndex: number, destinationIndex: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
 }
 
 export const ColorList: React.FC<ColorListProps> = ({
@@ -26,10 +60,28 @@ export const ColorList: React.FC<ColorListProps> = ({
   onSaveColor,
   onUnsaveColor,
   onReorder,
+  onDragStart,
+  onDragEnd
 }) => {
   const [copiedColors, setCopiedColors] = React.useState<string[]>([]);
 
+  // Kompenenent mount olduğunda global stil enjekte ediyoruz
+  useEffect(() => {
+    injectGlobalStyle();
+    return () => {
+      // Clean up - bu örnekte tam gerekli değil ama iyi bir pratik
+      const styleEl = document.getElementById('beautiful-dnd-fix-style');
+      if (styleEl) {
+        styleEl.remove();
+      }
+    };
+  }, []);
+
   const handleDragEnd = (result: DropResult) => {
+    if (onDragEnd) {
+      onDragEnd();
+    }
+    
     if (!result.destination) return;
     
     const sourceIndex = result.source.index;
@@ -70,6 +122,7 @@ export const ColorList: React.FC<ColorListProps> = ({
   return (
     <DragDropContext 
       onDragEnd={handleDragEnd}
+      onDragStart={() => onDragStart && onDragStart()}
       enableDefaultSensors={true}
     >
       <Droppable 
@@ -81,6 +134,10 @@ export const ColorList: React.FC<ColorListProps> = ({
             className="flex h-[calc(100vh-96px)]" 
             ref={provided.innerRef}
             {...provided.droppableProps}
+            style={{
+              overflow: 'hidden',
+              position: 'relative'
+            }}
           >
             {colors.map((color, index) => {
               const normalizedColor = color.value.toLowerCase();
@@ -101,9 +158,16 @@ export const ColorList: React.FC<ColorListProps> = ({
                         flexGrow: 1,
                         flexBasis: 0,
                         minWidth: 0,
-                        height: "100%",
+                        height: snapshot.isDragging ? "calc(100vh - 96px)" : "100%",
+                        opacity: snapshot.isDragging ? 1 : 1,
+                        transform: snapshot.isDragging 
+                          ? `${provided.draggableProps.style?.transform}` 
+                          : provided.draggableProps.style?.transform,
+                        zIndex: snapshot.isDragging ? 9999 : 'auto',
+                        boxShadow: snapshot.isDragging ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" : "none",
+                        border: snapshot.isDragging ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
                       }}
-                      className="h-full"
+                      className={`${snapshot.isDragging ? 'rounded-lg will-change-transform' : ''}`}
                     >
                       <ColorCard
                         color={color.value}

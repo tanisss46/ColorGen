@@ -122,15 +122,20 @@ export const ColorCard: React.FC<ColorCardProps> = ({
 
   return (
     <div 
-      className="relative w-full h-full flex flex-col items-center group"
-      style={{ backgroundColor: localColor }}
+      className="relative w-full h-full flex flex-col items-center justify-between group"
+      style={{ 
+        backgroundColor: localColor,
+        minHeight: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
       onClick={(e) => {
         if (!isEditing) {
           copyToClipboard();
         }
       }}
     >
-      <div className="flex-1 flex flex-col items-center justify-center gap-3 mt-[-40px]">
+      <div className="w-full flex-1 flex flex-col items-center justify-center gap-3 mt-[-40px]">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -238,7 +243,16 @@ export const ColorCard: React.FC<ColorCardProps> = ({
         </TooltipProvider>
       </div>
       
-      <div className="absolute bottom-20 w-full flex flex-col items-center justify-center gap-2">
+      <div 
+        className="absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center"
+        style={{ 
+          paddingBottom: '80px',
+          transform: 'translateZ(0)', 
+          willChange: 'transform', 
+          zIndex: 10,
+          pointerEvents: 'none'
+        }}
+      >
         <Popover open={isEditing} onOpenChange={(open) => {
           setIsEditing(open);
         }}>
@@ -251,6 +265,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({
                 e.stopPropagation();
                 setIsEditing(true);
               }}
+              style={{ pointerEvents: 'auto' }}
             >
               {localColor.toUpperCase().replace('#', '')}
             </button>
@@ -283,6 +298,11 @@ export const ColorCard: React.FC<ColorCardProps> = ({
           className={`text-l font-medium transition-colors ${
             isColorLight(localColor) ? 'text-gray-700' : 'text-gray-300' 
           }`}
+          style={{ 
+            display: 'block',
+            textAlign: 'center',
+            marginTop: '8px'
+          }}
         >
           {colorName}
         </span>
