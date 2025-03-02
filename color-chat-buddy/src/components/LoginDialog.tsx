@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail, Key, Loader2, Github } from "lucide-react";
+import { Mail, Key, Loader2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -47,7 +47,7 @@ const LoginDialog = ({ isOpen, onClose }: LoginDialogProps) => {
     }
   };
 
-  const handleOAuthLogin = async (provider: 'google' | 'github') => {
+  const handleOAuthLogin = async (provider: 'google') => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -110,16 +110,6 @@ const LoginDialog = ({ isOpen, onClose }: LoginDialogProps) => {
               Continue with Google
             </Button>
             
-            <Button 
-              className="w-full bg-[#24292e] hover:bg-[#2f363d]" 
-              onClick={() => handleOAuthLogin('github')}
-              autoFocus={false}
-              tabIndex={-1}
-            >
-              <Github className="w-5 h-5 mr-2" />
-              Continue with GitHub
-            </Button>
-
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-gray-300" />
