@@ -44,7 +44,7 @@ const Index = () => {
     handleDeletePalette,
     handlePaletteSelect,
     handleColorSelect
-  } = usePaletteActions(user, colors, setSavedPalettes, setSavedColors, setIsLoginOpen);
+  } = usePaletteActions(user, setColors, setSavedPalettes, setSavedColors, setIsLoginOpen);
 
   const handleColorUpdate = (index: number, newColor: string) => {
     handleColorChange(index, newColor);
@@ -63,8 +63,15 @@ const Index = () => {
       toast.error("Maximum 8 colors allowed!");
       return;
     }
-    const newColors = [...colors, { value: generateRandomColor(), isLocked: false }];
-    addColor(newColors);
+    
+    // Create a new color
+    const newColor = { value: generateRandomColor(), isLocked: false };
+    
+    // Call addColor without arguments as it's meant to be
+    addColor();
+    
+    // Then update the colors manually
+    setColors([...colors, newColor]);
   };
 
   const toggleChat = () => {

@@ -117,7 +117,8 @@ const Navbar = ({
                         {savedPalettes.map(palette => (
                           <DropdownMenuItem 
                             key={palette.id} 
-                            className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md"
+                            className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md cursor-pointer"
+                            onClick={() => onPaletteSelect?.(palette.colors)}
                             onKeyDown={(e) => {
                               if (e.key === 'Delete' || e.key === 'Backspace') {
                                 e.preventDefault();
@@ -125,7 +126,7 @@ const Navbar = ({
                               }
                             }}
                           >
-                            <div className="flex items-center gap-2 flex-1" onClick={() => onPaletteSelect?.(palette.colors)}>
+                            <div className="flex items-center gap-2 flex-1">
                               <div className="flex gap-0.5 flex-1">
                                 {palette.colors.map((color, index) => (
                                   <div
@@ -171,7 +172,8 @@ const Navbar = ({
                         {savedColors.map(color => (
                           <DropdownMenuItem 
                             key={color.id} 
-                            className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md"
+                            className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md cursor-pointer"
+                            onClick={() => onColorSelect?.(color.color_value)}
                             onKeyDown={(e) => {
                               if (e.key === 'Delete' || e.key === 'Backspace') {
                                 e.preventDefault();
@@ -179,7 +181,7 @@ const Navbar = ({
                               }
                             }}
                           >
-                            <div className="flex items-center gap-2 flex-1" onClick={() => onColorSelect?.(color.color_value)}>
+                            <div className="flex items-center gap-2 flex-1">
                               <div
                                 className="w-6 h-6 rounded"
                                 style={{ backgroundColor: color.color_value }}

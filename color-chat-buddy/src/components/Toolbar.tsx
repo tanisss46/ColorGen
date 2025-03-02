@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Undo, Redo, Plus, Minus, Wand2, Save, Sparkles } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { SavedColor, SavedPalette } from "@/types/color";
+import { ColorState } from "@/types/color";
 
 interface ToolbarProps {
   onRemoveColor: () => void;
@@ -15,6 +17,14 @@ interface ToolbarProps {
   isPro?: boolean;
   canUndo: boolean;
   canRedo: boolean;
+  savedColors?: SavedColor[];
+  savedPalettes?: SavedPalette[];
+  selectedColors?: ColorState[];
+  selectedPalette?: SavedPalette | null;
+  onSelectPalette?: (colors: string[]) => void;
+  onSelectColor?: (color: string) => void;
+  onDeleteColor?: (color: string) => void;
+  onDeletePalette?: (id: string) => void;
 }
 
 const Toolbar = ({
@@ -29,7 +39,15 @@ const Toolbar = ({
   onUpgradePro,
   isPro = false,
   canUndo,
-  canRedo
+  canRedo,
+  savedColors = [],
+  savedPalettes = [],
+  selectedColors = [],
+  selectedPalette = null,
+  onSelectPalette,
+  onSelectColor,
+  onDeleteColor,
+  onDeletePalette
 }: ToolbarProps) => {
   return (
     <div className="h-12 border-t border-b border-gray-200 flex items-center px-4 gap-2 justify-between bg-gray-100 relative">
