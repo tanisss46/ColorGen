@@ -55,7 +55,7 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => {
             fontWeight: 300,
             letterSpacing: '1px'
           }} fill="#94A3B8">
-            create your palette
+            Create Your Palette!
           </text>
         </g>
       </svg>
