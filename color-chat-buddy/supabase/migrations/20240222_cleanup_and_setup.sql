@@ -28,8 +28,8 @@ create table public.subscriptions (
     current_period_end timestamptz not null,
     created_at timestamptz default now(),
     ended_at timestamptz,
-    trial_start timestamptz,
-    trial_end timestamptz
+    _start timestamptz,
+    _end timestamptz
 );
 
 -- Create messages table

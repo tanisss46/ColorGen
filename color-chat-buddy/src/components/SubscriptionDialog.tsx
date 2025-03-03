@@ -270,7 +270,7 @@ const SubscriptionDialog = ({
             
             <p className="text-sm text-gray-500 mt-6 text-center">
               By subscribing, you agree to our terms of service and privacy policy.
-              Cancel anytime. All plans include access to our AI Assistant for generating beautiful color palettes.
+              Cancel anytime. All plans include a <span className="text-green-600 font-medium">3-day FREE trial</span> and access to our AI Assistant for generating beautiful color palettes.
             </p>
           </div>
       </DialogContent>
