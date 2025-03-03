@@ -13,13 +13,15 @@ interface ChatPanelProps {
   isOpen: boolean;
   onClose: () => void;
   onWidthChange: (width: number) => void;
+  width?: number;
 }
 
 export const ChatPanel = ({
   onFilterColors,
   isOpen,
   onClose,
-  onWidthChange
+  onWidthChange,
+  width: initialWidth = 320
 }: ChatPanelProps) => {
   const {
     messages,
@@ -44,7 +46,7 @@ export const ChatPanel = ({
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [width, setWidth] = useState(320);
+  const [width, setWidth] = useState(initialWidth);
   const [userIsScrolling, setUserIsScrolling] = useState(false);
   const [showChatHint, setShowChatHint] = useState(false);
   const [showInputHint, setShowInputHint] = useState(false);

@@ -23,8 +23,16 @@ export default defineConfig(({ mode }) => ({
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
-      external: ['@vercel/analytics', '@vercel/analytics/react']
-    }
+      external: ['@vercel/analytics', '@vercel/analytics/react'],
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@/components/ui']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   },
 }));

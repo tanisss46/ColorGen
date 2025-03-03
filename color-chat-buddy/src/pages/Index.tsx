@@ -63,14 +63,9 @@ const Index = () => {
       toast.error("Maximum 8 colors allowed!");
       return;
     }
-    
-    // Create a new color
     const newColor = { value: generateRandomColor(), isLocked: false };
-    
-    // Call addColor without arguments as it's meant to be
     addColor();
-    
-    // Then update the colors manually
+    // Manually update colors with the new color
     setColors([...colors, newColor]);
   };
 

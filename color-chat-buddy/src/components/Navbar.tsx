@@ -21,7 +21,15 @@ interface NavbarProps {
   onColorSelect?: (color: string) => void;
   onDeleteColor?: (color: string) => void;
   onDeletePalette?: (id: string) => void;
+  onSavePalette?: () => void;
   isPro?: boolean;
+  selectedColors?: any[];
+  selectedPalette?: any;
+  onOpenLogin?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
+  onUndo?: () => void;
+  onRedo?: () => void;
 }
 
 const Navbar = ({
@@ -34,7 +42,15 @@ const Navbar = ({
   onColorSelect,
   onDeleteColor,
   onDeletePalette,
-  isPro = false
+  onSavePalette,
+  isPro = false,
+  selectedColors,
+  selectedPalette,
+  onOpenLogin,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo
 }: NavbarProps) => {
   const [activeTab, setActiveTab] = useState<'palettes' | 'colors'>('palettes');
 
@@ -118,12 +134,15 @@ const Navbar = ({
                           <DropdownMenuItem 
                             key={palette.id} 
                             className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md cursor-pointer"
-                            onClick={() => onPaletteSelect?.(palette.colors)}
                             onKeyDown={(e) => {
                               if (e.key === 'Delete' || e.key === 'Backspace') {
                                 e.preventDefault();
                                 onDeletePalette?.(palette.id);
                               }
+                            }}
+                            onClick={() => {
+                              console.log("Palette selected:", palette.colors);
+                              onPaletteSelect?.(palette.colors);
                             }}
                           >
                             <div className="flex items-center gap-2 flex-1">
@@ -168,25 +187,28 @@ const Navbar = ({
                     )
                   ) : (
                     savedColors?.length > 0 ? (
-                      <div className="grid gap-1">
+                      <div className="grid grid-cols-1 gap-2">
                         {savedColors.map(color => (
                           <DropdownMenuItem 
                             key={color.id} 
                             className="flex items-center justify-between p-2 focus:bg-gray-50 hover:bg-gray-50 rounded-md cursor-pointer"
-                            onClick={() => onColorSelect?.(color.color_value)}
                             onKeyDown={(e) => {
                               if (e.key === 'Delete' || e.key === 'Backspace') {
                                 e.preventDefault();
                                 onDeleteColor?.(color.color_value);
                               }
                             }}
+                            onClick={() => {
+                              console.log("Color selected:", color.color_value);
+                              onColorSelect?.(color.color_value);
+                            }}
                           >
                             <div className="flex items-center gap-2 flex-1">
-                              <div
-                                className="w-6 h-6 rounded"
+                              <div 
+                                className="w-6 h-6 rounded-full border border-gray-200" 
                                 style={{ backgroundColor: color.color_value }}
                               />
-                              <span className="text-sm">{color.color_value}</span>
+                              <span className="text-sm text-gray-700">{color.color_value}</span>
                             </div>
                             <div className="flex gap-2">
                               <button

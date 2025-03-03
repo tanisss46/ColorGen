@@ -21,8 +21,8 @@ interface ToolbarProps {
   savedPalettes?: SavedPalette[];
   selectedColors?: ColorState[];
   selectedPalette?: SavedPalette | null;
-  onSelectPalette?: (colors: string[]) => void;
-  onSelectColor?: (color: string) => void;
+  onPaletteSelect?: (colors: string[]) => void;
+  onColorSelect?: (color: string) => void;
   onDeleteColor?: (color: string) => void;
   onDeletePalette?: (id: string) => void;
 }
@@ -44,8 +44,8 @@ const Toolbar = ({
   savedPalettes = [],
   selectedColors = [],
   selectedPalette = null,
-  onSelectPalette,
-  onSelectColor,
+  onPaletteSelect,
+  onColorSelect,
   onDeleteColor,
   onDeletePalette
 }: ToolbarProps) => {

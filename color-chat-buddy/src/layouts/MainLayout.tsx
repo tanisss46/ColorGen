@@ -4,7 +4,7 @@ import LoginDialog from "@/components/LoginDialog";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { AINotification } from "@/components/AINotification";
 import { PropsWithChildren, useState, useEffect } from "react";
-import { SavedColor, SavedPalette, ColorState } from "@/types/color";
+import { ColorState, SavedColor, SavedPalette } from "@/types/color";
 import { useSubscription } from "@/hooks/useSubscription";
 import supabase from "@/utils/supabase";
 
@@ -20,9 +20,9 @@ interface MainLayoutProps extends PropsWithChildren {
   onDeleteColor?: (color: string) => void;
   onSavePalette?: () => void;
   onDeletePalette?: (id: string) => void;
-  onSelectPalette?: (colors: string[]) => void;
+  onPaletteSelect?: (colors: string[]) => void;
+  onColorSelect?: (color: string) => void;
   onClearSelection?: () => void;
-  onSelectColor?: (color: string) => void;
   setIsLoginOpen?: (open: boolean) => void;
   isLoginOpen?: boolean;
   history?: any[];
@@ -51,9 +51,9 @@ const MainLayout = ({
   onDeleteColor,
   onSavePalette,
   onDeletePalette,
-  onSelectPalette,
+  onPaletteSelect,
+  onColorSelect,
   onClearSelection,
-  onSelectColor,
   setIsLoginOpen,
   isLoginOpen = false,
   history = [],
@@ -95,8 +95,8 @@ const MainLayout = ({
         savedPalettes={savedPalettes || []}
         onLogin={() => setIsLoginOpen?.(true)}
         onLogout={handleLogout || (async () => {})}
-        onPaletteSelect={onSelectPalette}
-        onColorSelect={onSelectColor}
+        onPaletteSelect={onPaletteSelect}
+        onColorSelect={onColorSelect}
         onDeleteColor={onDeleteColor}
         onDeletePalette={onDeletePalette}
         onSavePalette={onSavePalette}
@@ -128,8 +128,8 @@ const MainLayout = ({
         selectedPalette={selectedPalette}
         onDeleteColor={onDeleteColor}
         onDeletePalette={onDeletePalette}
-        onSelectPalette={onSelectPalette}
-        onSelectColor={onSelectColor}
+        onSelectPalette={onPaletteSelect}
+        onSelectColor={onColorSelect}
       />
       <main className="flex-1 overflow-hidden">
         {children}
