@@ -124,7 +124,7 @@ serve(async (req) => {
         metadata: {
           user_email: userData.email,
           supabase_user_id: userData.id,
-          plan_type: priceId === 'price_1QvLcfKrwythZBNmKot5welR' ? 'weekly' : 
+          plan_type: priceId === 'price_1Qyac1KrwythZBNmY02s0c85' ? 'weekly' : 
                      priceId === 'price_1QvHg9KrwythZBNmc6mPbqOp' ? 'monthly' : 'yearly'
         }
       },

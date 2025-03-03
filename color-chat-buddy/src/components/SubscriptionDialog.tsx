@@ -208,7 +208,7 @@ const SubscriptionDialog = ({
                 <Button
                   onClick={() => {
                     console.log('Weekly plan checkout clicked');
-                    handleCheckout('price_1QvLcfKrwythZBNmKot5welR');
+                    handleCheckout('price_1Qyac1KrwythZBNmY02s0c85');
                   }}
                   variant="outline"
                   className="w-full mt-auto rounded-full py-6 font-medium bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700"
