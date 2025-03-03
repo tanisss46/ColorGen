@@ -28,8 +28,7 @@ export default defineConfig(({ mode }) => ({
       external: ['@vercel/analytics', '@vercel/analytics/react'],
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@/components/ui']
+          vendor: ['react', 'react-dom', 'react-router-dom']
         }
       }
     },
