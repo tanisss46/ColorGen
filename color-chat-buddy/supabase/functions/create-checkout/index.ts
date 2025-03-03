@@ -121,6 +121,7 @@ serve(async (req) => {
       allow_promotion_codes: true,
       billing_address_collection: 'required',
       subscription_data: {
+        trial_period_days: 0, // Explicitly set to 0 to override any Stripe dashboard settings
         metadata: {
           user_email: userData.email,
           supabase_user_id: userData.id,
