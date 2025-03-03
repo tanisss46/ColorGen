@@ -168,11 +168,22 @@ const SubscriptionDialog = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Weekly Plan */}
               <div className="relative border rounded-xl p-6 flex flex-col h-full bg-gradient-to-br from-white to-[#F9FAFB]/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-[#D1D5DB]/70 shadow">
+                <div className="absolute -top-3 left-0 right-0 flex justify-center">
+                  <div className="bg-[#ff4d8d] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md">
+                    3-Day FREE Trial Included
+                  </div>
+                </div>
                 <div className="text-xl font-bold mb-2 text-[#374151]">Weekly</div>
                 <div className="text-3xl font-bold mb-4 text-[#374151]">$2.99</div>
                 <div className="text-sm text-gray-500 mb-4">Billed weekly</div>
                 <div className="flex-grow">
                   <ul className="text-left text-sm space-y-3 mb-6">
+                    <li className="flex items-start">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-pink-100 flex items-center justify-center mr-2">
+                        <span className="text-pink-500">✓</span>
+                      </span>
+                      <span className="text-gray-700 font-medium">Start with a 3-day FREE trial</span>
+                    </li>
                     <li className="flex items-start">
                       <span className="flex-shrink-0 w-5 h-5 rounded-full bg-pink-100 flex items-center justify-center mr-2">
                         <span className="text-pink-500">✓</span>
@@ -213,20 +224,31 @@ const SubscriptionDialog = ({
                   variant="outline"
                   className="w-full mt-auto rounded-full py-6 font-medium bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700"
                 >
-                  Subscribe Weekly
+                  Start Free Trial
                 </Button>
               </div>
 
               {/* Monthly Plan */}
               <div className="relative border rounded-xl p-6 flex flex-col h-full bg-gradient-to-br from-white to-[#FDF2F8]/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-[#ff4d8d]/20 shadow bg-[#fff5f9]">
-                <Badge className="absolute -top-2 -right-2 bg-[#ff4d8d] hover:bg-[#e6457f] px-3 py-1 border-0 font-medium">
+                <Badge className="absolute -top-2 -right-2 bg-[#ffb3d1] hover:bg-[#ffa3c8] px-3 py-1 border-0 font-medium">
                   Best Value
                 </Badge>
+                <div className="absolute -top-3 left-4 flex justify-start">
+                  <div className="bg-[#ff4d8d] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md">
+                    3-Day FREE Trial Included
+                  </div>
+                </div>
                 <div className="text-xl font-bold mb-2 text-[#374151]">Monthly</div>
                 <div className="text-3xl font-bold mb-4 text-[#374151]">$9.99</div>
                 <div className="text-sm text-gray-500 mb-4">Billed monthly <span className="text-[#ff4d8d]">(Save 16%)</span></div>
                 <div className="flex-grow">
                   <ul className="text-left text-sm space-y-3 mb-6">
+                    <li className="flex items-start">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#fff0f5] flex items-center justify-center mr-2">
+                        <span className="text-[#ff4d8d]">✓</span>
+                      </span>
+                      <span className="text-gray-700 font-medium">Start with a 3-day FREE trial</span>
+                    </li>
                     <li className="flex items-start">
                       <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#fff0f5] flex items-center justify-center mr-2">
                         <span className="text-[#ff4d8d]">✓</span>
@@ -263,14 +285,14 @@ const SubscriptionDialog = ({
                   onClick={() => handleCheckout('price_1QvHg9KrwythZBNmc6mPbqOp')}
                   className="w-full mt-auto rounded-full py-6 font-medium bg-[#ff4d8d] hover:bg-[#e6457f] text-white"
                 >
-                  Subscribe Monthly
+                  Start Free Trial
                 </Button>
               </div>
             </div>
             
             <p className="text-sm text-gray-500 mt-6 text-center">
               By subscribing, you agree to our terms of service and privacy policy.
-              Cancel anytime. All plans include a <span className="text-green-600 font-medium">3-day FREE trial</span> and access to our AI Assistant for generating beautiful color palettes.
+              Cancel anytime. All plans include a <span className="text-[#ff4d8d] font-medium">3-day FREE trial</span> and access to our AI Assistant for generating beautiful color palettes.
             </p>
           </div>
       </DialogContent>
