@@ -259,9 +259,9 @@ const SubscriptionDialog = ({
                     </li>
                   </ul>
                 </div>
-                <Button 
-                  onClick={() => handleCheckout('price_1OpeIfJ9SNlmIdZ2VsRUvIbV')} 
-                  className="w-full mt-auto rounded-full bg-[#ff4d8d] hover:bg-[#e6457f] text-white py-6 font-medium border-0"
+                <Button
+                  onClick={() => handleCheckout('price_1QvHg9KrwythZBNmc6mPbqOp')}
+                  className="w-full mt-auto rounded-full py-6 font-medium bg-[#ff4d8d] hover:bg-[#e6457f] text-white"
                 >
                   Subscribe Monthly
                 </Button>

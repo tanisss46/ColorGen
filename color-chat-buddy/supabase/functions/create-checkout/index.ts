@@ -125,8 +125,8 @@ serve(async (req) => {
         metadata: {
           user_email: userData.email,
           supabase_user_id: userData.id,
-          plan_type: priceId === 'price_1QvHgmKrwythZBNmI3SjOClR' ? 'yearly' : 
-                     priceId === 'price_1QvHg9KrwythZBNmc6mPbqOp' ? 'monthly' : 'weekly'
+          plan_type: priceId === 'price_1QvLcfKrwythZBNmKot5welR' ? 'weekly' : 
+                     priceId === 'price_1QvHg9KrwythZBNmc6mPbqOp' ? 'monthly' : 'yearly'
         }
       },
       success_url: `${origin}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
